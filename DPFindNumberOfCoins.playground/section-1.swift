@@ -2,23 +2,33 @@
 
 import UIKit
 
-
-func findMinimumCoinsTotalSum(totalSum : Int, coinsValue : [Int]) -> Int {
+// Method with parameters : total sum (problem) and an array of coint type
+// Return value : minimum coins to have the sum of value
+func findMinimumCoinsForTotalSum(totalSum : Int, coinsValue : [Int]) -> Int {
+    // make the array of coins mutable
     var coins = coinsValue
-    var minNumberOfCoins : [Int] = [];
-    // initialize the minNumberOfCoins, set all solutions to 0
-    for sum in 0...totalSum {
-        minNumberOfCoins += [0];
-    }
+    
+    // an array of int to store our solutions
+    var minNumberOfCoins : [Int] = Array<Int>();
+    
+    // initialise the minNumberOfCoins
+    minNumberOfCoins += [0];
+    
     // sort the coins value to be descending
     coins.sort({ $0 > $1 });
     
+    // loop trough the sub problems until the given problem
     for sum in 1...totalSum {
+        // loop trough the coin type available in the array
         for coin in coins {
+            // make sure we getting the highest posible coin
             if (coin <= sum){
+                // get the remaining
                 let remaining = sum - coin;
+                // get the previous solution
                 let previousSolution = minNumberOfCoins[remaining];
-                minNumberOfCoins[sum] = previousSolution + 1;
+                // save it for new solution
+                minNumberOfCoins += [previousSolution + 1];
                 break;
             }
         }
@@ -29,9 +39,11 @@ func findMinimumCoinsTotalSum(totalSum : Int, coinsValue : [Int]) -> Int {
 }
 
 
-let totalSums = 10;
-let coins = [1,3,5,7,9];
+let totalSum = 13;
+let coins = [1,3,5];
 
-findMinimumCoinsTotalSum(totalSums, coins);
+var minCoins : Int = findMinimumCoinsForTotalSum(totalSum,coins);
+
+println("Minimum coins to have sum of \(totalSum) is \(minCoins)");
 
 
